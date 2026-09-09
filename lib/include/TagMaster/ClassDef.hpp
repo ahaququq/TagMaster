@@ -37,3 +37,5 @@ public:
 
     std::string toString(std::string name);
 };
+
+ClassDef::FieldProp operator/(std::string name, ClassRef type);

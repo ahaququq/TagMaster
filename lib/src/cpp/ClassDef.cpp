@@ -7,6 +7,10 @@
 ClassDef::FieldProp::FieldProp(std::string name, ClassRef type)
     : name(name), type(type) {}
 
+ClassDef::FieldProp operator/(std::string name, ClassRef type) {
+    return ClassDef::FieldProp(name, type);
+}
+
 ClassDef::TagProp::TagProp(ClassRef type): type(type) {}
 
 ClassDef& ClassDef::operator+(FieldProp field) {

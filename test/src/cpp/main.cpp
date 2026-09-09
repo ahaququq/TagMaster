@@ -11,14 +11,14 @@ int main() {
     auto A = ClassOwner("A", {ClassDef::Type::CLASS});
     auto B = ClassOwner("B", 
         ClassDef(ClassDef::Type::CLASS) 
-        + ClassDef::FieldProp{"foo", A.ref}
-        + ClassDef::FieldProp{"bar", A.ref}
+        + "foo" / A.ref
+        + "bar" / A.ref
     );
     auto C = ClassOwner("C", {ClassDef::Type::TAG});
     auto D = ClassOwner("D", 
         ClassDef(ClassDef::Type::CLASS)
-        + ClassDef::FieldProp{"fear", A.ref}
-        + ClassDef::FieldProp{"bear", B.ref}
+        + "fear" / A.ref
+        + "bear" / B.ref
         + C.ref
     );
 
