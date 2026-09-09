@@ -1,4 +1,4 @@
-#include "TagMaster/TagMaster.hpp"
+#include "TagMaster.hpp"
 
 namespace TagMaster {
     Version getVersion() {
