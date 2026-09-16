@@ -3,21 +3,37 @@
 #include <vector>
 #include <map>
 #include <string>
+#include <memory>
 
 #include "ClassRef.hpp"
+#include "Object.hpp"
 
 class ClassDef {
 public:
     struct FieldProp {
-        std::string name; ClassRef type;
+        std::string name; ClassRef type; 
+        std::shared_ptr<Object> def;
 
-        FieldProp(std::string name, ClassRef type);
+        FieldProp(
+            std::string name, ClassRef type, 
+            std::shared_ptr<Object> def = nullptr
+        );
+
+        FieldProp(const FieldProp& other);
+
+        FieldProp& operator*(Object o);
     };
 
     struct TagProp {
         ClassRef type;
+        std::shared_ptr<Object> def;
 
-        TagProp(ClassRef type);
+        TagProp(
+            ClassRef type, 
+            std::shared_ptr<Object> def = nullptr
+        );
+
+        TagProp(const TagProp& other);
     };
 
     std::vector<FieldProp> named; // Normal class fields
@@ -35,7 +51,8 @@ public:
     ClassDef& operator+(FieldProp field);
     ClassDef& operator+(TagProp attribute);
 
-    std::string toString(std::string name);
+    std::string toString(std::string name, int indent = 1);
 };
 
 ClassDef::FieldProp operator/(std::string name, ClassRef type);
+ClassDef::TagProp operator*(ClassRef type, Object o);

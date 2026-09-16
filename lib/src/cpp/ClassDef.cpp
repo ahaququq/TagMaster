@@ -4,14 +4,34 @@
 #include <sstream>
 #include <stdexcept>
 
-ClassDef::FieldProp::FieldProp(std::string name, ClassRef type)
-    : name(name), type(type) {}
+#include "Utils/Text.hpp"
+
+ClassDef::FieldProp::FieldProp(
+    std::string name, ClassRef type, std::shared_ptr<Object> def
+): name(name), type(type), def(std::move(def)) {}
+
+ClassDef::FieldProp::FieldProp(const FieldProp& other)
+: FieldProp(other.name, other.type, other.def) {}
+
+ClassDef::FieldProp& ClassDef::FieldProp::operator*(Object o) {
+    def = std::make_shared<Object>(o);
+    return *this;
+}
 
 ClassDef::FieldProp operator/(std::string name, ClassRef type) {
     return ClassDef::FieldProp(name, type);
 }
 
-ClassDef::TagProp::TagProp(ClassRef type): type(type) {}
+ClassDef::TagProp::TagProp(
+    ClassRef type, std::shared_ptr<Object> def
+): type(type), def(std::move(def)) {}
+
+ClassDef::TagProp::TagProp(const TagProp& other)
+: TagProp(other.type, other.def) {}
+
+ClassDef::TagProp operator*(ClassRef type, Object o) {
+    return ClassDef::TagProp(type, std::make_shared<Object>(o));
+}
 
 ClassDef& ClassDef::operator+(FieldProp field) {
     if (field.type.getDefinition().classType != Type::CLASS) 
@@ -30,14 +50,14 @@ ClassDef& ClassDef::operator+(FieldProp field) {
 ClassDef& ClassDef::operator+(TagProp attribute) {
     if (attribute.type.getDefinition().classType != Type::TAG)
         throw std::runtime_error("Attribute is not of type tag");
-    unnamed.emplace_back(attribute.type);
+    unnamed.emplace_back(attribute);
 
     return *this;
 }
 
 ClassDef::ClassDef(Type type): classType(type) {}
 
-std::string ClassDef::toString(std::string name) {
+std::string ClassDef::toString(std::string name, int indent) {
     std::ostringstream out;
 
     switch (classType) {
@@ -52,12 +72,15 @@ std::string ClassDef::toString(std::string name) {
     if (name != "") out << name << " ";
     out << "{\n";
     for (auto field: named) {
-        out << "    var " << field.name << ": " << field.type.getName();
-        out << " = " << "\"value\"\n";
+        out << ind(indent) << "var " << field.name << ": " << field.type.getName();
+        if (field.def) out << " = " << field.def->toString(field.type, indent + 1);
+        out << "\n";
     }
     if(!unnamed.empty()) out << "\n";
     for (auto tag: unnamed) {
-        out << "    " << tag.type.getName() << "(" << "\"value\"" << ")\n";
+        out << ind(indent) << tag.type.getName();
+        if (tag.def) out << " = " << tag.def->toString(tag.type, indent + 1);
+        out << "\n";
     }
     out << "}\n";
     return out.str();

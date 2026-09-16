@@ -10,7 +10,7 @@ class ClassRef {
 public:
     ClassRef(std::string name, ClassDef* definition);
 
-    std::string getName();
-    ClassDef& getDefinition();
-    std::string toString();
+    std::string getName() const;
+    ClassDef& getDefinition() const;
+    std::string toString() const;
 };
