@@ -24,3 +24,5 @@ GPATH
 GRTAGS
 GTAGS
 run
+
+*.tgm
