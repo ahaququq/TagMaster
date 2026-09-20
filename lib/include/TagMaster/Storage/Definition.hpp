@@ -47,9 +47,21 @@ public:
 	[[nodiscard]] virtual std::vector<GenField> getGenFields() const = 0;
 
 	[[nodiscard]] std::string genericDefToString() const;
+    [[nodiscard]] std::string toString() const override;
+};
+
+class GenericTypeSpec: public virtual TypeDefinition {
+public:
+    virtual std::shared_ptr<GenericTypeDef> getGenDef() const = 0;
+    virtual std::shared_ptr<TypeDefinition> getGenValue(std::string id) const = 0;
 };
 
 class NativeArray: public virtual GenericTypeDef {
 public:
+    [[nodiscard]] std::string getName() const override;
 	[[nodiscard]] std::vector<GenField> getGenFields() const override;
+};
+
+class NativeArraySpec: public virtual GenericTypeSpec {
+
 };

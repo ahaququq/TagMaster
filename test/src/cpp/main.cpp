@@ -70,6 +70,7 @@ static void testV2() {
 	for (u64 i = 0; i < nat->size(); i++) {
 		std::cout << i << " => " << (*nat)[i]->toString() << "\n";
 	}
+    std::cout << NativeArray().toString() << "\n";
 }
 
 int main() {

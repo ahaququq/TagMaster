@@ -73,6 +73,14 @@ std::string GenericTypeDef::genericDefToString() const {
 	return out.str();
 }
 
+std::string GenericTypeDef::toString() const {
+	return "generic def " + getName() + genericDefToString();
+}
+
+std::string NativeArray::getName() const {
+	return "NativeArray";
+}
+
 std::vector<GenericTypeDef::GenField> NativeArray::getGenFields() const {
 	return {
 		{"ElementType"}
