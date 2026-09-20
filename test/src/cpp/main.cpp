@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <fstream>
 
 #include "TagMaster/TagMaster.hpp"
 #include "TagMaster/ClassDef.hpp"
@@ -7,6 +8,8 @@
 
 #include "TagMaster/Native/StringData.hpp"
 #include "TagMaster/ClassObjectData.hpp"
+
+#include "TagMaster/Storage/BasicDataBuffer.hpp"
 
 void testV1() {
     auto A = ClassOwner("A", {ClassDef::Type::CLASS});
@@ -56,11 +59,17 @@ void testV1() {
 }
 
 void testV2() {
-
+    BasicDataBuffer b1 = BasicDataBuffer();
+    std::cout << b1[""]->toString() << "\n";
+    std::ofstream("b1.tgm", std::ios::binary) << b1;
+    std::ifstream f2 = std::ifstream("b1.tgm", std::ios::binary);
+    BasicDataBuffer b2 = BasicDataBuffer(f2);
+    std::cout << b2[""]->toString() << "\n";
 }
 
 int main() {
     std::cout << "TagMaster Version: " << TagMaster::getVersion() << "\n";
 
     // testV1();
+    testV2();
 }

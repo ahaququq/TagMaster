@@ -9,6 +9,7 @@ add_library(TagMasterLib STATIC
     src/cpp/Utils/Text.cpp
     src/cpp/Storage/Definition.cpp
     src/cpp/Storage/BasicDataBuffer.cpp
+    src/cpp/Storage/NativeReg.cpp
 )
 
 target_include_directories(TagMasterLib
