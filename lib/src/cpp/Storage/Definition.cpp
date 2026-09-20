@@ -1,5 +1,7 @@
 #include "Storage/Definition.hpp"
 
+#include <sstream>
+
 // ----- class NativeNumber -----
 
 NativeNumber::NativeNumber(const bool s, const u8 w): sign(s), width(w) {}
@@ -53,4 +55,26 @@ std::shared_ptr<NativeNumber>& NativeNumber::U32() {
 std::shared_ptr<NativeNumber>& NativeNumber::U64() {
 	static auto ptr = std::shared_ptr<NativeNumber>{ new NativeNumber(false, 8) };
 	return ptr;
+}
+
+std::string GenericTypeDef::genericDefToString() const {
+	std::stringstream out;
+	out << "<";
+	bool first = true;
+	for (const GenField& gen: getGenFields()) {
+		if (first) {
+			first = false;
+		} else {
+			out << ", ";
+		}
+		out << gen.id;
+	}
+	out << ">";
+	return out.str();
+}
+
+std::vector<GenericTypeDef::GenField> NativeArray::getGenFields() const {
+	return {
+		{"ElementType"}
+	};
 }
