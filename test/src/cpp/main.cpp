@@ -10,8 +10,9 @@
 #include "TagMaster/ClassObjectData.hpp"
 
 #include "TagMaster/Storage/BasicDataBuffer.hpp"
+#include "TagMaster/Storage/NativeReg.hpp"
 
-void testV1() {
+static void testV1() {
     auto A = ClassOwner("A", {ClassDef::Type::CLASS});
     auto B = ClassOwner("B", 
         ClassDef(ClassDef::Type::CLASS) 
@@ -58,13 +59,17 @@ void testV1() {
     // std::cout << std::hex << reinterpret_cast<long>(test1.def.get()) << " " << 31 << "\n";
 }
 
-void testV2() {
-    BasicDataBuffer b1 = BasicDataBuffer();
+static void testV2() {
+    auto b1 = BasicDataBuffer();
     std::cout << b1[""]->toString() << "\n";
     std::ofstream("b1.tgm", std::ios::binary) << b1;
-    std::ifstream f2 = std::ifstream("b1.tgm", std::ios::binary);
-    BasicDataBuffer b2 = BasicDataBuffer(f2);
+    std::ifstream f2("b1.tgm", std::ios::binary);
+    auto b2 = BasicDataBuffer(f2);
     std::cout << b2[""]->toString() << "\n";
+	auto& nat = NativeRegistry::defNatives();
+	for (u64 i = 0; i < nat->size(); i++) {
+		std::cout << i << " => " << (*nat)[i]->toString() << "\n";
+	}
 }
 
 int main() {

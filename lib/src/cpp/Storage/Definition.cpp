@@ -2,25 +2,55 @@
 
 // ----- class NativeNumber -----
 
-NativeNumber::NativeNumber(bool s, u8 w): sign(s), width(w) {}
+NativeNumber::NativeNumber(const bool s, const u8 w): sign(s), width(w) {}
 
-NativeNumber::NativeNumber(const NativeNumber& other)
-: sign(other.sign), width(other.width) {}
+// NativeNumber::NativeNumber(const NativeNumber& other)
+// : sign(other.sign), width(other.width) {}
 
 std::string NativeNumber::getName() const {
-    return sign ? "I" : "U" + std::to_string(width * 8);
+    return (sign ? "I" : "U") + std::to_string(width * 8);
 }
 
 std::string NativeNumber::toString() const {
     return "builtin type " + getName();
 }
 
-const NativeNumber NativeNumber::I8   = NativeNumber(true, 1);
-const NativeNumber NativeNumber::I16  = NativeNumber(true, 2);
-const NativeNumber NativeNumber::I32  = NativeNumber(true, 4);
-const NativeNumber NativeNumber::I64  = NativeNumber(true, 8);
+std::shared_ptr<NativeNumber>& NativeNumber::I8() {
+	static auto ptr = std::shared_ptr<NativeNumber>{ new NativeNumber(true,  1) };
+	return ptr;
+}
 
-const NativeNumber NativeNumber::U8   = NativeNumber(false, 1);
-const NativeNumber NativeNumber::U16  = NativeNumber(false, 2);
-const NativeNumber NativeNumber::U32  = NativeNumber(false, 4);
-const NativeNumber NativeNumber::U64  = NativeNumber(false, 8);
+std::shared_ptr<NativeNumber>& NativeNumber::I16() {
+	static auto ptr = std::shared_ptr<NativeNumber>{ new NativeNumber(true,  2) };
+	return ptr;
+}
+
+std::shared_ptr<NativeNumber>& NativeNumber::I32() {
+	static auto ptr = std::shared_ptr<NativeNumber>{ new NativeNumber(true,  4) };
+	return ptr;
+}
+
+std::shared_ptr<NativeNumber>& NativeNumber::I64() {
+	static auto ptr = std::shared_ptr<NativeNumber>{ new NativeNumber(true,  8) };
+	return ptr;
+}
+
+std::shared_ptr<NativeNumber>& NativeNumber::U8() {
+	static auto ptr = std::shared_ptr<NativeNumber>{ new NativeNumber(false, 1) };
+	return ptr;
+}
+
+std::shared_ptr<NativeNumber>& NativeNumber::U16() {
+	static auto ptr = std::shared_ptr<NativeNumber>{ new NativeNumber(false, 2) };
+	return ptr;
+}
+
+std::shared_ptr<NativeNumber>& NativeNumber::U32() {
+	static auto ptr = std::shared_ptr<NativeNumber>{ new NativeNumber(false, 4) };
+	return ptr;
+}
+
+std::shared_ptr<NativeNumber>& NativeNumber::U64() {
+	static auto ptr = std::shared_ptr<NativeNumber>{ new NativeNumber(false, 8) };
+	return ptr;
+}

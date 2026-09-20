@@ -18,7 +18,7 @@ BasicDataBuffer::BasicDataBuffer(std::istream& source) {
         if (!source) break;
         data.emplace_back(ch);
         std::cout << "0x";
-        auto fmt = std::cout.setf(std::ios::hex);
+        const auto fmt = std::cout.setf(std::ios::hex);
         std::cout.fill('0');
         std::cout.width(2);
         std::cout << std::hex << static_cast<u32>(static_cast<u8>(ch));
@@ -33,12 +33,12 @@ BasicDataBuffer::BasicDataBuffer(std::istream& source) {
 }
 
 std::shared_ptr<Definition> BasicDataBuffer::operator[](std::string id) const {
-    return std::make_shared<NativeNumber>(NativeNumber::U8);
+    return NativeNumber::U8();
 }
 
 bool BasicDataBuffer::checkMagic(const void* data) {
-    const u8* dat = (const u8*) data;
-    u32 d = dat[0] << 24 | dat[1] << 16 | dat[2] << 8 | dat[3];
+    const u8* dat = static_cast<const u8 *>(data);
+    const u32 d = dat[0] << 24 | dat[1] << 16 | dat[2] << 8 | dat[3];
     return d == magic;
 }
 

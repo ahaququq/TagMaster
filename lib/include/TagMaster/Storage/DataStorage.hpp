@@ -18,5 +18,6 @@ public:
 /// Serchable by indicies
 class ArrayDataStorage: public virtual DataStorage {
 public:
-    
+	virtual std::shared_ptr<Definition> operator[](u64 id) const = 0;
+	[[nodiscard]] virtual u64 size() const = 0;
 };
