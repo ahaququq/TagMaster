@@ -33,7 +33,7 @@ BasicDataBuffer::BasicDataBuffer(std::istream& source) {
 }
 
 std::shared_ptr<Definition> BasicDataBuffer::operator[](std::string id) const {
-    return NativeNumber::U8();
+    return NativeNumberType::U8();
 }
 
 bool BasicDataBuffer::checkMagic(const void* data) {

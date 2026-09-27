@@ -23,8 +23,8 @@ u64 NativeRegistry::size() const {
 
 std::shared_ptr<NativeRegistry>& NativeRegistry::defNatives() {
 	static auto ptr = std::make_shared<NativeRegistry>(NativeRegistry{
-		NativeNumber::I8(), NativeNumber::I16(), NativeNumber::I32(), NativeNumber::I64(),
-		NativeNumber::U8(), NativeNumber::U16(), NativeNumber::U32(), NativeNumber::U64()
+		NativeNumberType::I8(), NativeNumberType::I16(), NativeNumberType::I32(), NativeNumberType::I64(),
+		NativeNumberType::U8(), NativeNumberType::U16(), NativeNumberType::U32(), NativeNumberType::U64()
 	});
 	return ptr;
 }

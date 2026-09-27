@@ -71,6 +71,27 @@ static void testV2() {
 		std::cout << i << " => " << (*nat)[i]->toString() << "\n";
 	}
     std::cout << NativeArray().toString() << "\n";
+
+    std::shared_ptr<CompoundDef> c = std::make_shared<CompoundDef>();
+    c->name = "Class";
+    c->named.emplace_back(CompoundDef::FieldDef{"foo", NativeNumberType::I32(), nullptr, true});
+    std::cout << c->toString() << "\n";
+    std::shared_ptr<CompoundDef> c1 = std::make_shared<CompoundDef>();
+    c1->name = "Element";
+    c->parents.emplace_back(c1);
+    std::cout << c1->toString() << "\n";
+    std::cout << c->toString() << "\n";
+    c->named.emplace_back(CompoundDef::FieldDef{"bar", c1, nullptr, false, true});
+    std::cout << c->toString() << "\n";
+    std::shared_ptr<CompoundDef> c2 = std::make_shared<CompoundDef>();
+    c2->name = "";
+    c2->parents.emplace_back(c1);
+    c2->unnamed.emplace_back(CompoundDef::AttrDef{NativeNumberType::I64(), NativeNumberType::U16()});
+    std::cout << c2->toString() << "\n";
+    c->named[0].value = NativeNumberType::I32();
+    c->named[0].abstract = false;
+    c->named[1].value = c2;
+    std::cout << c->toString() << "\n";
 }
 
 int main() {
